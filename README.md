@@ -1,6 +1,6 @@
 # DAP-Rust: Debug Adapter Protocol for Rust in Neovim
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MrEhbr/dap-rust/lint-test.yml?branch=main&style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/MrEhbr/dap-rust.nvim/lint-test.yml?branch=main&style=for-the-badge)
 ![Lua](https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua)
 
 A Neovim plugin that provides Debug Adapter Protocol (DAP) integration for Rust projects.
@@ -23,7 +23,7 @@ A Neovim plugin that provides Debug Adapter Protocol (DAP) integration for Rust 
 
 ```lua
 {
-  "MrEhbr/dap-rust",
+  "MrEhbr/dap-rust.nvim",
   dependencies = { "mfussenegger/nvim-dap" },
   config = function()
     require("dap-rust").setup({
@@ -31,8 +31,7 @@ A Neovim plugin that provides Debug Adapter Protocol (DAP) integration for Rust 
       codelldb = {
         path = "path/to/codelldb", -- REQUIRED: Path to the CodeLLDB executable
         lib_path = "path/to/liblldb.so", -- REQUIRED: Path to liblldb
-        port = "${port}", -- Port for communication, keep as "${port}" to use random port
-        initialize_timeout_sec = 20,
+        port = "${port}" -- Port for communication, keep as "${port}" to use random port
       },
     })
   end,
@@ -43,7 +42,7 @@ A Neovim plugin that provides Debug Adapter Protocol (DAP) integration for Rust 
 
 ```lua
 use {
-  "MrEhbr/dap-rust",
+  "MrEhbr/dap-rust.nvim",
   requires = { "mfussenegger/nvim-dap" },
   config = function()
     require("dap-rust").setup({
@@ -62,7 +61,6 @@ local default_config = {
   codelldb = {
     path = "", -- REQUIRED: Path to the CodeLLDB executable
     lib_path = "", -- REQUIRED: Path to the liblldb shared library
-    initialize_timeout_sec = 20,
     port = "${port}",
     args = {},
   },
@@ -80,18 +78,21 @@ local default_config = {
 These paths vary depending on your system and installation method. For example:
 
 #### macOS (with Homebrew)
+
 ```lua
 path = "/opt/homebrew/opt/llvm/bin/lldb-vscode", 
 lib_path = "/opt/homebrew/opt/llvm/lib/liblldb.dylib",
 ```
 
 #### Linux
+
 ```lua
 path = "/usr/bin/lldb-vscode",
 lib_path = "/usr/lib/liblldb.so",
 ```
 
 #### Windows
+
 ```lua
 path = "C:\\Program Files\\LLVM\\bin\\lldb-vscode.exe",
 lib_path = "C:\\Program Files\\LLVM\\bin\\liblldb.dll",

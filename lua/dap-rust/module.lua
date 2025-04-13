@@ -74,12 +74,13 @@ local function setup_codelldb_adapter(dap, config)
   end
 end
 
-local function pick_process(targets)
+local function pick_one(targets)
   local co, ismain = coroutine.running()
   local ui = require("dap.ui")
   local pick = (co and not ismain) and ui.pick_one or ui.pick_one_sync
   local result = pick(targets, "Select target: ", function(v)
-    return v
+    local target = vim.fn.fnamemodify(v, ":t")
+    return target
   end)
   return result or require("dap").ABORT
 end
@@ -98,7 +99,7 @@ local function get_program()
     end
   end
 
-  return pick_process(results)
+  return pick_one(results)
 end
 
 local function setup_rust_configuration(dap, configs)
