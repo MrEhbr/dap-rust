@@ -1,0 +1,170 @@
+*dap-rust.txt*          For Neovim >= 0.8.0         Last change: 2025 April 13
+
+==============================================================================
+Table of Contents                                 *dap-rust-table-of-contents*
+
+1. DAP-Rust: Debug Adapter Protocol for Rust in Neovim|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim|
+  - Features|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-features|
+  - Requirements|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-requirements|
+  - Installation|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-installation|
+  - Configuration|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-configuration|
+  - Usage |dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-usage|
+  - Acknowledgements|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-acknowledgements|
+  - License|dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-license|
+2. Links                                                      |dap-rust-links|
+
+==============================================================================
+1. DAP-Rust: Debug Adapter Protocol for Rust in Neovim*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim*
+
+
+
+A Neovim plugin that provides Debug Adapter Protocol (DAP) integration for Rust
+projects.
+
+
+FEATURES*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-features*
+
+- Debug Rust applications using CodeLLDB
+- Support for debugging with arguments
+- Automatically detect Rust binaries in your workspace
+- Type pretty-printing support for Rust types
+
+
+REQUIREMENTS*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-requirements*
+
+- Neovim >= 0.5.0
+- nvim-dap <https://github.com/mfussenegger/nvim-dap>
+
+
+INSTALLATION*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-installation*
+
+
+USING LAZY.NVIM ~
+
+>lua
+    {
+      "MrEhbr/dap-rust",
+      dependencies = { "mfussenegger/nvim-dap" },
+      config = function()
+        require("dap-rust").setup({
+          -- Required configuration
+          codelldb = {
+            path = "path/to/codelldb", -- REQUIRED: Path to the CodeLLDB executable
+            lib_path = "path/to/liblldb.so", -- REQUIRED: Path to liblldb
+            port = "${port}", -- Port for communication, keep as "${port}" to use random port
+            initialize_timeout_sec = 20,
+          },
+        })
+      end,
+    }
+<
+
+
+USING PACKER.NVIM ~
+
+>lua
+    use {
+      "MrEhbr/dap-rust",
+      requires = { "mfussenegger/nvim-dap" },
+      config = function()
+        require("dap-rust").setup({
+          -- Optional custom configuration
+        })
+      end
+    }
+<
+
+
+CONFIGURATION*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-configuration*
+
+The default configuration requires you to provide the paths to the CodeLLDB
+executable and liblldb library:
+
+>lua
+    local default_config = {
+      codelldb = {
+        path = "", -- REQUIRED: Path to the CodeLLDB executable
+        lib_path = "", -- REQUIRED: Path to the liblldb shared library
+        initialize_timeout_sec = 20,
+        port = "${port}",
+        args = {},
+      },
+      tests = {
+        verbose = false,
+      },
+    }
+<
+
+
+REQUIRED PARAMETERS ~
+
+- `codelldb.path`Path to the CodeLLDB executable
+- `codelldb.lib_path`Path to the liblldb shared library
+
+These paths vary depending on your system and installation method. For example:
+
+
+MACOS (WITH HOMEBREW)
+
+>lua
+    path = "/opt/homebrew/opt/llvm/bin/lldb-vscode", 
+    lib_path = "/opt/homebrew/opt/llvm/lib/liblldb.dylib",
+<
+
+
+LINUX
+
+>lua
+    path = "/usr/bin/lldb-vscode",
+    lib_path = "/usr/lib/liblldb.so",
+<
+
+
+WINDOWS
+
+>lua
+    path = "C:\\Program Files\\LLVM\\bin\\lldb-vscode.exe",
+    lib_path = "C:\\Program Files\\LLVM\\bin\\liblldb.dll",
+<
+
+
+USAGE     *dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-usage*
+
+Once configured, you can use nvim-dap commands to debug your Rust applications:
+
+>lua
+    -- Start debugging with the default configuration
+    :lua require('dap').continue()
+    
+    -- Set breakpoints
+    :lua require('dap').toggle_breakpoint()
+    
+    -- Step over/into/out
+    :lua require('dap').step_over()
+    :lua require('dap').step_into()
+    :lua require('dap').step_out()
+<
+
+
+ACKNOWLEDGEMENTS*dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-acknowledgements*
+
+This plugin is highly inspired by nvim-dap-go
+<https://github.com/leoluz/nvim-dap-go> by leoluz <https://github.com/leoluz>.
+Many thanks for the excellent work that served as a foundation for this
+project.
+
+
+LICENSE *dap-rust-dap-rust:-debug-adapter-protocol-for-rust-in-neovim-license*
+
+This project is licensed under the MIT License - see the LICENSE file for
+details.
+
+==============================================================================
+2. Links                                                      *dap-rust-links*
+
+1. *GitHub Workflow Status*: https://img.shields.io/github/actions/workflow/status/MrEhbr/dap-rust/lint-test.yml?branch=main&style=for-the-badge
+2. *Lua*: https://img.shields.io/badge/Made%20with%20Lua-blueviolet.svg?style=for-the-badge&logo=lua
+
+Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
+
+vim:tw=78:ts=8:noet:ft=help:norl:
